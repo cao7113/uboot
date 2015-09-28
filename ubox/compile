@@ -1,0 +1,20 @@
+#! /usr/bin/env bash
+set -e
+
+this_dir=$(readlink -f $(dirname $0))
+install_file=$this_dir/install.bash
+cat <<-Script > $install_file
+#!/usr/bin/env bash
+# Generated at `date`, DO NOT EDIT THIS SCRIPT!!!
+
+#export BOOT_UPDATE_APT=1"
+export BOOT_INIT_USER=doger
+
+Script
+chmod +x $install_file
+
+for f in base-tool.bash init-user.bash ; do
+  cat $this_dir/$f >> $install_file
+done
+
+echo echo ==finished >> $install_file

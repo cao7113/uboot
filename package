@@ -1,0 +1,15 @@
+#! /usr/bin/env bash
+set -e
+
+# ubox rbox0 rbox
+boxname=${1:-ubox}
+
+echo ==packaging $boxname machine as vagrant $boxname box
+tmp_box=/tmp/$boxname.box  #mktemp or tempfile cmd ? 
+[ -f $tmp_box ] && rm -f $tmp_box 
+echo Exporting to $tmp_box
+vagrant package $boxname --output $tmp_box
+vagrant box add --force --insecure  $boxname $tmp_box
+echo Import a new $boxname in vagrant box list
+rm -f $tmp_box && echo ==cleaning $tmp_box ...
+echo ==package vagrant box $boxname at `date` >> package.log
