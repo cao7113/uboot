@@ -3,8 +3,11 @@
 Vagrant.configure(2) do |config|
   # https://docs.vagrantup.com.
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "ubuntu/trusty64"
-  #config.vm.box = "ubuntu/vivid64"
+  
+  config.vm.box = "ubuntu/vivid64"
+  
+  config.ssh.password = 'vagrant'
+  config.ssh.insert_key = false # !required for base box to use Vagrant's insecure public private key
 
   config.vm.define 'ubox', primary: true do |box|
     box.vm.hostname = 'ubox'
@@ -12,16 +15,17 @@ Vagrant.configure(2) do |config|
     box.vm.provision 'shell', privileged: false, path: 'ubox/install.bash'
   end
 
-  config.vm.define 'rbox0', autostart: false do |box|
-    box.vm.hostname = 'rbox0'
+  config.vm.define 'rbase', autostart: false do |box|
+    box.vm.hostname = 'rbase'
     box.vm.box = "ubox"
-    box.vm.provision 'shell', privileged: false, path: '../rbenv-pluger/boot/ruby-build-essential'
+    box.vm.provision 'shell', privileged: false, path: 'rbenv-pluger/boot/ruby-build-essential'
   end
 
   config.vm.define 'rbox', autostart: false do |box|
     box.vm.hostname = 'rbox'
-    box.vm.box = "rbox0"
-    box.vm.provision 'shell', privileged: false, inline: '/vagrant/rbox/install.bash'
+    box.vm.box = "rbase"
+    box.vm.provision 'shell', privileged: false, inline: '/vagrant/rbox/compile', name: 'compiling'
+    box.vm.provision 'shell', privileged: false, inline: '/vagrant/rbox/install.bash', name: 'installing'
   end
 
   # Disable automatic box update checking. If you disable this, then

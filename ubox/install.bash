@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Generated at Mon Sep 28 07:09:55 UTC 2015, DO NOT EDIT THIS SCRIPT!!!
+# Generated at Tue Sep 29 02:24:56 UTC 2015, DO NOT EDIT THIS SCRIPT!!!
 
 #export BOOT_UPDATE_APT=1"
 export BOOT_INIT_USER=doger

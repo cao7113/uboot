@@ -1,0 +1,25 @@
+#! /usr/bin/env bash
+set -e
+
+this_dir=$(readlink -f $(dirname $0))
+install_file=$this_dir/install.bash
+[ "$USER" = 'vagrant' ] && vagrant=1
+
+cat <<-Script > $install_file
+#!/usr/bin/env bash
+# Generated at `date "+%Y-%m-%d %H:%M:%S"`, DO NOT EDIT THIS SCRIPT!!!
+set -e
+
+t0=\`date\`
+which git > /dev/null || { echo No git command available; exit 1; }
+
+Script
+chmod +x $install_file
+
+for f in get-rbenv.bash etc.bash ; do
+  cat $this_dir/$f >> $install_file
+done
+
+if [ -z "$vagrant" ];then
+  cat $install_file
+fi

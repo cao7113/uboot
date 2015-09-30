@@ -1,0 +1,8 @@
+#! /usr/bin/env bash
+set -e
+
+#[ $# -lt 1 ] && echo Usage $0 boxname && exit 1
+boxname=${1:-rbox}
+
+vagrant destroy -f $boxname || true
+vagrant up $boxname

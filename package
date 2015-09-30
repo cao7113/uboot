@@ -1,8 +1,8 @@
 #! /usr/bin/env bash
 set -e
 
-# ubox rbox0 rbox
-boxname=${1:-ubox}
+[ $# -lt 1 ] && echo Usage $0 boxname && exit 1
+boxname=$1
 
 echo ==packaging $boxname machine as vagrant $boxname box
 tmp_box=/tmp/$boxname.box  #mktemp or tempfile cmd ? 

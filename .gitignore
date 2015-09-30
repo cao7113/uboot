@@ -1,2 +1,4 @@
-pluger
+cache
+rbenv-pluger
+ruby-build
 *.log

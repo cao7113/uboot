@@ -1,0 +1,17 @@
+#! /usr/bin/env bash
+# get a local rbenv with plugins ( no pluger ) for cache
+set -e
+
+this_dir=$(readlink -f $(dirname $0))
+cache_root=$this_dir/../cache
+rbox_root=$cache_root/rbox
+
+[ -n "$FORCE" -a -d $rbox_root ] && rm -fr $rbox_root
+
+[ -d $rbox_root ] && echo "==warning: already existed $rbox_root" || {
+  mkdir -p $rbox_root
+  RBOX_ROOT=$rbox_root 
+  source $this_dir/get-rbenv.bash
+}
+
+echo Make a rbenv cache dir: $rbox_root

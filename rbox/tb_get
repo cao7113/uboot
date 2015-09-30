@@ -1,0 +1,20 @@
+#! /usr/bin/env bash
+set -e
+
+echo get pkg from http://ruby.taobao.org  
+rb_pkg_url=${1:-http://ruby.taobao.org/mirrors/ruby/2.2/ruby-2.2.0.tar.gz}
+
+this_dir=$(readlink -f $(dirname $0))
+rbenv_cache_dir=$this_dir/../cache/rbox/rbenv/cache
+pkg_name=$(basename $rb_pkg_url)
+
+if [ -d $rbenv_cache_dir ];then
+  cd $rbenv_cache_dir
+  if [ -e $pkg_name ];then
+    echo already existed $pkg_name in $rbenv_cache_dir
+  else
+    wget $rb_pkg_url
+  fi
+else
+  echo Not found $rbenv_cache_dir, canceled!
+fi
