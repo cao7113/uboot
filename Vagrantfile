@@ -6,10 +6,10 @@ Vagrant.configure(2) do |config|
   
   config.vm.box = "ubuntu/vivid64"
   
-  config.ssh.password = 'vagrant'
+  #config.ssh.password = 'vagrant'
   config.ssh.insert_key = false # !required for base box to use Vagrant's insecure public private key
 
-  config.vm.define 'ubox', primary: true do |box|
+  config.vm.define 'ubox', autostart: false do |box|
     box.vm.hostname = 'ubox'
     box.vm.provision 'shell', privileged: false, inline: '/vagrant/ubox/compile'
     box.vm.provision 'shell', privileged: false, path: 'ubox/install.bash'
@@ -26,6 +26,19 @@ Vagrant.configure(2) do |config|
     box.vm.box = "rbase"
     box.vm.provision 'shell', privileged: false, inline: '/vagrant/rbox/compile', name: 'compiling'
     box.vm.provision 'shell', privileged: false, inline: '/vagrant/rbox/install.bash', name: 'installing'
+  end
+
+  #tmp box for anything
+  config.vm.define 'tbox', primary: true do |box|
+    box.vm.hostname = 'tbox'
+    box.vm.box = "rbox"
+  end
+
+  ## DB box
+  config.vm.define 'dbox', autostart: false do |box|
+    box.vm.hostname = 'dbox'
+    box.vm.box = "ubox"
+    box.vm.provision 'shell', privileged: false, path: 'dbox/mysql-server.bash', name: 'mysql installing'
   end
 
   # Disable automatic box update checking. If you disable this, then

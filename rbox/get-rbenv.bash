@@ -38,18 +38,19 @@ echo ==rbenv root: $rbenv_root
   mkdir -p $rbenv_root/cache && echo Enabled ruby-build download package cache to path: $rbenv_root/cache
 }
 
-sudo ln -sb $rbenv_root /rbenv
+[ -n "$LOCAL_RBENV_CACHE" ] || sudo ln -sb $rbenv_root /rbenv
 
 rbenv_plugins_root=$rbenv_root/plugins
 [ -d $rbenv_plugins_root ] || {
   mkdir -p $rbenv_plugins_root
 
   rbenv_plugins=(
-  https://github.com/sstephenson/rbenv-vars.git
+  https://github.com/cao7113/rbenv-update.git
   https://github.com/cao7113/ruby-build.git
-  https://github.com/rkh/rbenv-update.git
   https://github.com/sstephenson/rbenv-gem-rehash.git
   https://github.com/sstephenson/rbenv-default-gems.git
+  https://github.com/sstephenson/rbenv-vars.git
+  https://github.com/carsomyr/rbenv-bundler.git
   )
 
   cd $rbenv_plugins_root

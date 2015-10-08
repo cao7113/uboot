@@ -1,0 +1,9 @@
+#! /usr/bin/env bash
+set -e
+
+this_dir=$(readlink -f $(dirname $0))
+rbenv_dir=$this_dir/../cache/rbox/rbenv
+rbenv_update_plugin_dir=$rbenv_dir/plugins/rbenv-update
+RBENV_ROOT=$rbenv_dir $rbenv_update_plugin_dir/bin/rbenv-update
+
+echo ==updated local rbenv with plugins
