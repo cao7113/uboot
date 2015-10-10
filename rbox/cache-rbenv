@@ -5,7 +5,6 @@ set -e
 this_dir=$(readlink -f $(dirname $0))
 cache_root=$this_dir/../cache
 rbox_root=$cache_root/rbox
-export LOCAL_RBENV_CACHE=1
 
 [ -n "$FORCE" -a -d $rbox_root ] && rm -fr $rbox_root && echo ==remove old $rbox_root
 
