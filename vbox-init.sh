@@ -20,7 +20,7 @@ function vbox(){
   url=https://raw.githubusercontent.com/cao7113/uboot/master/vbox-init.sh
   vinit=~/vbox-init.sh
   curl $url > $vinit
-  source $vinit~
+  source $vinit
   echo ==updated file $vinit
 }
 export -f vbox
