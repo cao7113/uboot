@@ -17,7 +17,7 @@ alias rdb='rails dbconsole'
 alias rsql='mysql -uroot -proot'
 
 function vbox(){
-  url=https://github.com/cao7113/uboot/blob/master/vbox-init.sh
+  url=https://raw.githubusercontent.com/cao7113/uboot/master/vbox-init.sh
   vinit=~/vbox-init.sh
   curl $url > $vinit
   source $vinit~
