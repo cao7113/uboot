@@ -1,3 +1,5 @@
+## Get rbenv with common plugins into RBOX_ROOT/rbenv, defalut: /rbox/rbenv
+
 set -e
 
 run_as=`id -un`
@@ -19,7 +21,7 @@ cd $rbox_root
 
 rbenv_root=$rbox_root/rbenv
 rbenv_repo=${RBENV_REPO:-https://github.com/sstephenson/rbenv.git}
-echo ==rbenv root: $rbenv_root
+echo ==use rbenv root: $rbenv_root
 
 [ -d $rbenv_root/.git -o -n "$NOT_RBENV_CACHE"  ] || { 
   if [ -n "$vagrant_vm" ]; then
@@ -44,10 +46,13 @@ rbenv_plugins_root=$rbenv_root/plugins
 
   rbenv_plugins=(
   https://github.com/cao7113/rbenv-update.git
+  #taobao source first checked
   https://github.com/cao7113/ruby-build.git
   https://github.com/sstephenson/rbenv-gem-rehash.git
   https://github.com/sstephenson/rbenv-default-gems.git
   https://github.com/sstephenson/rbenv-vars.git
+  #rbenv bundler on|off #require manually enabled
+  #check with: rbenv which rake
   https://github.com/carsomyr/rbenv-bundler.git
   )
 

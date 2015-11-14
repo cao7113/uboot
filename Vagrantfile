@@ -9,8 +9,14 @@ Vagrant.configure(2) do |config|
   #config.ssh.password = 'vagrant'
   config.ssh.insert_key = false # !required for base box to use Vagrant's insecure public private key
 
+  #Note: workaround for file provisioner has no permission to scp into /etc/profile.d!
+  #update file by: vagrant provision ubox --provision-with file # put into base Vagrantfile?
+  config.vm.provision "file", source: "~/dev/uboot/vbox-init.sh", destination: "~/vbox-init.sh"
+  config.vm.provision 'shell', privileged: false, inline: 'sudo ln -sb ~/vbox-init.sh /etc/profile.d'
+
   config.vm.define 'ubox', autostart: false do |box|
     box.vm.hostname = 'ubox'
+
     box.vm.provision 'shell', privileged: false, inline: '/vagrant/ubox/compile'
     box.vm.provision 'shell', privileged: false, path: 'ubox/install.bash'
   end
@@ -28,10 +34,17 @@ Vagrant.configure(2) do |config|
     box.vm.provision 'shell', privileged: false, inline: '/vagrant/rbox/install.bash', name: 'installing'
   end
 
+  config.vm.define 'railsdb', autostart: false do |box|
+    box.vm.hostname = 'railsdb'
+    box.vm.box = "rbox"
+    box.vm.provision 'shell', privileged: false, path: 'dbox/mysql-server.bash', name: 'mysql installing'
+  end
+
   #tmp box for anything
   config.vm.define 'tbox', primary: true do |box|
     box.vm.hostname = 'tbox'
     box.vm.box = "rbox"
+    box.vm.network "private_network", ip: "192.168.33.10"
   end
 
   ## DB box
@@ -39,6 +52,18 @@ Vagrant.configure(2) do |config|
     box.vm.hostname = 'dbox'
     box.vm.box = "ubox"
     box.vm.provision 'shell', privileged: false, path: 'dbox/mysql-server.bash', name: 'mysql installing'
+  end
+
+  ## Puppet box
+  config.vm.define 'pbox', autostart: false do |box|
+    box.vm.hostname = 'pbox'
+    box.vm.box = "rbox"
+    box.vm.network "private_network", ip: "192.168.33.101"
+    box.vm.provision 'puppet' do |pp|
+      pp.manifests_path = 'puppet/manifests'
+      pp.module_path = 'puppet/modules'
+      pp.options = ['--verbose', '--debug']
+    end
   end
 
   # Disable automatic box update checking. If you disable this, then
@@ -53,7 +78,7 @@ Vagrant.configure(2) do |config|
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
-  # config.vm.network "private_network", ip: "192.168.33.10"
+  #config.vm.network "private_network", ip: "192.168.33.10"
 
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on

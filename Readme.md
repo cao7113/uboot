@@ -13,7 +13,9 @@ curl https://raw.githubusercontent.com/cao7113/uboot/master/rbox/install.bash | 
 
 ## todo
 
-tmp box
+ use bats test rbox installation!!!
+
+ deploy ruby app automatically!
 
 role
 

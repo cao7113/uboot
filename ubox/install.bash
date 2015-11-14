@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Generated at Tue Sep 29 02:24:56 UTC 2015, DO NOT EDIT THIS SCRIPT!!!
+# Generated at Sun Oct 25 05:44:33 UTC 2015, DO NOT EDIT THIS SCRIPT!!!
 
 #export BOOT_UPDATE_APT=1"
 export BOOT_INIT_USER=doger
@@ -8,7 +8,7 @@ echo ==Installing basic tools
 if [ -n "$BOOT_UPDATE_APT" ]; then
   sudo apt-get -y update
 fi
-sudo apt-get -y install curl htop vim git tree
+sudo apt-get -y install curl git vim htop tree
 echo ==Init user
 uname=${BOOT_INIT_USER:-doger}
 if grep -q "$uname" /etc/passwd; then
