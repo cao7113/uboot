@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+echo ref https://ruby.taobao.org/index.html
+# default --global --> ~/.bundle/config; --local --> app/.bundle/config; --delete
+bundle config mirror.https://rubygems.org https://ruby.taobao.org
+echo ==current bundler gem source
+bundle config mirror.https://rubygems.org
+
+exit
+
+#handle cases:
+#source "https://rubygems.org"
+#source :rubygems
+#-->into
+##comment origin line
+#source "https://ruby.taobao.org"
+
+[ "$1" = "-h" ] && echo Usage: $0 Gemfile && exit 1
+target=${1:-Gemfile}
+[ ! -f $target ] && echo Not found file $target && exit 1
+case $(os_type) in
+  mac)
+    if ! which gsed >/dev/null; then
+      brew install -v gnu-sed
+    fi
+    gsed -i -r -e "s|^(source .*rubygems.*)$|# \1\nsource 'https://ruby.taobao.org'|" $target
+    ;;
+  linux)
+    sed -i -r -e "s|^(source .*rubygems.*)$|# \1\nsource 'https://ruby.taobao.org'|" $target
+    ;;
+  *)
+    echo Unsupport os type: $(os_type)
+    ;;
+esac
+echo "change rubygems source --> taobao source in $target" 
+
+exit 
+
+#gem sources --add https://ruby.taobao.org/ --remove https://rubygems.org/
+gem sources --remove https://rubygems.org/
+gem sources --add https://ruby.taobao.org/
+gem sources -l # 请确保只有 ruby.taobao.org
+cat <<-Note
+  [sudo] gem install bundler -V
+Note

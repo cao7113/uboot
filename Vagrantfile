@@ -32,6 +32,7 @@ Vagrant.configure(2) do |config|
     box.vm.box = "rbase"
     box.vm.provision 'shell', privileged: false, inline: '/vagrant/rbox/compile', name: 'compiling'
     box.vm.provision 'shell', privileged: false, inline: '/vagrant/rbox/install.bash', name: 'installing'
+    box.vm.provision 'shell', privileged: false, inline: '/vagrant/rbox/taobaosrc', name: 'taobaosrc'
   end
 
   config.vm.define 'railsdb', autostart: false do |box|
@@ -63,6 +64,17 @@ Vagrant.configure(2) do |config|
       pp.manifests_path = 'puppet/manifests'
       pp.module_path = 'puppet/modules'
       pp.options = ['--verbose', '--debug']
+    end
+  end
+
+  ## Git server
+  config.vm.define 'gbox', autostart: false do |box|
+    box.vm.hostname = 'gbox'
+    box.vm.box = "rbox"
+    box.vm.network "private_network", ip: "192.168.9.9"
+    box.vm.provision 'shell', inline: '/vagrant/gbox/install.bash'
+    box.vm.provider "virtualbox" do |vb|
+      vb.memory = "512"
     end
   end
 
