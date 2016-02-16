@@ -24,3 +24,15 @@ function vbox(){
   echo ==updated file $vinit
 }
 export -f vbox
+
+function mounth(){
+  mkdir -p ~/host
+  which sshfs >/dev/null || sudo apt-get -y install sshfs
+  sshfs cao@10.0.2.2: ~/host 
+  sudo ln -s ~/host /h
+  echo ==mounted host on ~/host
+}
+
+export -f mounth
+
+alias umounth="sudo umount ~/host"

@@ -17,7 +17,7 @@ pluger_root=${PLUGER_ROOT:-$rbenv_plugins_root/rbenv-pluger}
     ln -sb $pluger_root/etc/default-gems $rbenv_root/default-gems
   }
 
-  for f in gemrc irbrc railsrc rails.irbrc pryrc; do
+  for f in gemrc irbrc rails.irbrc pryrc; do
     if [ -e $pluger_root/etc/dot.$f ];then
       ln -sb $pluger_root/etc/dot.$f ~/.$f 
     fi

@@ -1,20 +1,14 @@
 #!/usr/bin/env bash
-
 echo ref https://ruby.taobao.org/index.html
-# default --global --> ~/.bundle/config; --local --> app/.bundle/config; --delete
-bundle config mirror.https://rubygems.org https://ruby.taobao.org
+#not: bundle config mirror.https://rubygems.org https://ruby.taobao.org
+#default gem source is https://rubygems.org/
+bundle config mirror.https://rubygems.org/ https://ruby.taobao.org/
 echo ==current bundler gem source
-bundle config mirror.https://rubygems.org
-
+bundle config mirror.https://rubygems.org/
 exit
 
-#handle cases:
 #source "https://rubygems.org"
 #source :rubygems
-#-->into
-##comment origin line
-#source "https://ruby.taobao.org"
-
 [ "$1" = "-h" ] && echo Usage: $0 Gemfile && exit 1
 target=${1:-Gemfile}
 [ ! -f $target ] && echo Not found file $target && exit 1
@@ -32,14 +26,15 @@ case $(os_type) in
     echo Unsupport os type: $(os_type)
     ;;
 esac
-echo "change rubygems source --> taobao source in $target" 
+echo "change rubygems source --> taobao source in $target"
+exit
 
-exit 
-
-#gem sources --add https://ruby.taobao.org/ --remove https://rubygems.org/
+#oneshot:
+# gem sources --add https://ruby.taobao.org/ --remove https://rubygems.org/
 gem sources --remove https://rubygems.org/
 gem sources --add https://ruby.taobao.org/
-gem sources -l # 请确保只有 ruby.taobao.org
+gem sources -l 
 cat <<-Note
+  请确保只有 ruby.taobao.org
   [sudo] gem install bundler -V
 Note

@@ -60,7 +60,7 @@ rbenv_plugins_root=$rbenv_root/plugins
   https://github.com/sstephenson/rbenv-vars.git
   #rbenv bundler on|off #require manually enabled
   #check with: rbenv which rake
-  https://github.com/carsomyr/rbenv-bundler.git
+  #https://github.com/carsomyr/rbenv-bundler.git
   )
 
   cd $rbenv_plugins_root
