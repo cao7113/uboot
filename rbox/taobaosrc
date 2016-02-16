@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
 echo ref https://ruby.taobao.org/index.html
-#not: bundle config mirror.https://rubygems.org https://ruby.taobao.org
-#default gem source is https://rubygems.org/
-bundle config mirror.https://rubygems.org/ https://ruby.taobao.org/
+gem sources --add https://ruby.taobao.org/ --remove https://rubygems.org/
+bundle config mirror.https://rubygems.org https://ruby.taobao.org
 echo ==current bundler gem source
-bundle config mirror.https://rubygems.org/
+bundle config mirror.https://rubygems.org
 exit
 
 #source "https://rubygems.org"
