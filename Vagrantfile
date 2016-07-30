@@ -21,6 +21,14 @@ Vagrant.configure(2) do |config|
     box.vm.provision 'shell', privileged: false, path: 'ubox/install.bash'
   end
 
+  config.vm.define 'u16', autostart: false do |box|
+    box.vm.hostname = 'u16'
+    box.vm.box = "ubuntu/xenial64"
+
+    #box.vm.provision 'shell', privileged: false, inline: '/vagrant/ubox/compile'
+    #box.vm.provision 'shell', privileged: false, path: 'ubox/install.bash'
+  end
+
   config.vm.define 'rbase', autostart: false do |box|
     box.vm.hostname = 'rbase'
     box.vm.box = "ubox"
